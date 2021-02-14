@@ -36,8 +36,10 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".authentication.AuthenticationActivity">
+
         </activity>
         <activity android:name=".locationreminders.RemindersActivity" >
+            <!-- TODO to move to AuthenticationActivity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
