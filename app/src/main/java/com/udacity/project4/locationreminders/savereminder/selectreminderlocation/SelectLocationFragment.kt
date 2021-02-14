@@ -14,6 +14,7 @@ import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -40,6 +41,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
 
     private val REQUEST_LOCATION_PERMISSION = 1
+    var selectedPoi: PointOfInterest? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -64,7 +66,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
 
 //        TODO: call this function after the user confirms on the selected location
-        onLocationSelected()
+        binding.saveLocationButton.setOnClickListener {
+            onLocationSelected()
+        }
 
         return binding.root
     }
@@ -73,6 +77,12 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         //        TODO: When the user confirms on the selected location,
         //         send back the selected location details to the view model
         //         and navigate back to the previous fragment to save the reminder and add the geofence
+        Log.i("onlocationSelected", "onLocationSelected")
+        _viewModel.selectedPOI.value = selectedPoi
+        _viewModel.latitude.value = selectedPoi?.latLng?.latitude
+        _viewModel.longitude.value = selectedPoi?.latLng?.longitude
+        _viewModel.reminderSelectedLocationStr.value = selectedPoi?.name
+        findNavController().navigateUp()
     }
 
 
@@ -117,6 +127,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                             .title(poi.name)
             )
             poiMarker.showInfoWindow()
+            selectedPoi = poi
         }
     }
 
