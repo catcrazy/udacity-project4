@@ -42,7 +42,7 @@ class SaveReminderFragment : BaseFragment() {
         private const val BACKGROUND_LOCATION_PERMISSION_INDEX = 1
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         const val ACTION_GEOFENCE_EVENT = "SaveReminderFragment.locationreminder.ACTION_GEOFENCE_EVENT"
-        private const val GEOFENCE_RADIUS_IN_METERS = 1000f
+        private const val GEOFENCE_RADIUS_IN_METERS = 100f
         private val GEOFENCE_EXPIRATION_IN_MILLISECONDS = TimeUnit.HOURS.toMillis(1)
     }
 
@@ -230,7 +230,7 @@ class SaveReminderFragment : BaseFragment() {
             addOnCompleteListener {
                 geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                     addOnSuccessListener {
-//                        Toast.makeText(requireActivity(), "geo fence added", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), "geo fence added", Toast.LENGTH_SHORT).show()
                         Log.e("Add Geofence", geofence.requestId)
                     }
                     addOnFailureListener {
