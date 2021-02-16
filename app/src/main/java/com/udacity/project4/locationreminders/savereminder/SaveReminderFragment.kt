@@ -53,11 +53,13 @@ class SaveReminderFragment : BaseFragment() {
     // for geofencing
     private val runningQOrLater = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
 
+
     private val geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
         intent.action = ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+
     private lateinit var geofencingClient: GeofencingClient
 
     override fun onCreateView(
@@ -99,7 +101,7 @@ class SaveReminderFragment : BaseFragment() {
 
             val reminderDataItem = ReminderDataItem(title, description, location, latitude, longitude)
             checkDeviceLocationSettingsAndStartGeofence(data = reminderDataItem)
-            _viewModel.saveReminder(reminderDataItem)
+            //_viewModel.saveReminder(reminderDataItem)
         }
     }
 
@@ -202,9 +204,11 @@ class SaveReminderFragment : BaseFragment() {
             }
         }
         locationSettingsResponseTask.addOnCompleteListener {
-            if ( it.isSuccessful ) {
+            if (data != null && it.isSuccessful && !isDetached) {
                 Log.i("add geofence", "addgeofence")
-                addGeofenceForReminder(data!!)
+                if (_viewModel.validateAndSaveReminder(data)) {
+                    addGeofenceForReminder(data)
+                }
             }
         }
     }
