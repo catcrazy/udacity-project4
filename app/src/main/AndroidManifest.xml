@@ -41,11 +41,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".locationreminders.RemindersActivity" >
-            <!-- TODO to move to AuthenticationActivity -->
-
         </activity>
         <receiver
             android:name=".locationreminders.geofence.GeofenceBroadcastReceiver"

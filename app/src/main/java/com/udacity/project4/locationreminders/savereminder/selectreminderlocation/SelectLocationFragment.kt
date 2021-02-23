@@ -52,7 +52,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
 
-        //        TODO: add the map setup implementation
         val mapFragment = childFragmentManager
                 .findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
